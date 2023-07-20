@@ -1,18 +1,27 @@
 package com.devsuperior.aulaSalvarParaUm.dto;
 
+import com.devsuperior.aulaSalvarParaUm.entities.Person;
+
 public class PersonDepartmentDTO {
 
     private Long id;
     private String name;
-    private Double Salary;
+    private Double salary;
 
     private DepartmentDTO department;
 
     public PersonDepartmentDTO(Long id, String name, Double salary, DepartmentDTO department) {
         this.id = id;
         this.name = name;
-        Salary = salary;
+        this.salary = salary;
         this.department = department;
+    }
+
+    public PersonDepartmentDTO(Person entity) {
+        id = entity.getId();
+        name = entity.getName();
+        salary = entity.getSalary();
+        department = new DepartmentDTO(entity.getDepartment());
     }
 
     public Long getId() {
@@ -24,7 +33,7 @@ public class PersonDepartmentDTO {
     }
 
     public Double getSalary() {
-        return Salary;
+        return salary;
     }
 
     public DepartmentDTO getDepartment() {
