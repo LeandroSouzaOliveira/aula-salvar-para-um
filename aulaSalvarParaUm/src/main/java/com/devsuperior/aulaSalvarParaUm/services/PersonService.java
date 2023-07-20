@@ -1,5 +1,6 @@
 package com.devsuperior.aulaSalvarParaUm.services;
 
+import com.devsuperior.aulaSalvarParaUm.dto.PersonDTO;
 import com.devsuperior.aulaSalvarParaUm.dto.PersonDepartmentDTO;
 import com.devsuperior.aulaSalvarParaUm.entities.Department;
 import com.devsuperior.aulaSalvarParaUm.entities.Person;
@@ -17,15 +18,14 @@ public class PersonService {
     private DepartmentRepository departmentRepository;
 
     public PersonDepartmentDTO insert(PersonDepartmentDTO dto) {
-
         Person entity = new Person();
         entity.setName(dto.getName());
         entity.setSalary(dto.getSalary());
-        
-        //retorna toda entidade no json
+
+        //entidade monitorada pela jpa
         Department dept = departmentRepository.getReferenceById(dto.getDepartment().getId());
 
-        //retorna apenas o Id no json
+        //entidade transient para o jpa
         //Department dept = new Department();
         //dept.setId(dto.getDepartment().getId());
 
@@ -33,5 +33,23 @@ public class PersonService {
 
         entity = repository.save(entity);
         return new PersonDepartmentDTO(entity);
+    }
+
+    public PersonDTO insert(PersonDTO dto) {
+        Person entity = new Person();
+        entity.setName(dto.getName());
+        entity.setSalary(dto.getSalary());
+
+        //entity Managed JPA
+        //Department dept = departmentRepository.getReferenceById(dto.getDepartmentId());
+
+        //entity Transient JPA
+        Department dept = new Department();
+        dept.setId(dto.getDepartmentId());
+
+        entity.setDepartment(dept);
+
+        entity = repository.save(entity);
+        return new PersonDTO(entity);
     }
 }
